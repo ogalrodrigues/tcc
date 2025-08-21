@@ -1,0 +1,56 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>QR Code — Último lote</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .qr-wrap{
+      max-width: 900px; margin: 30px auto; background:#fff; padding:20px;
+      border:1px solid #ddd; border-radius:12px; text-align:center;
+      box-shadow:0 2px 6px rgba(0,0,0,.08);
+    }
+    .qr-img{
+      width: 220px; height:auto; border:1px solid #ddd; border-radius:8px; padding:10px;
+      background: #fff;
+    }
+    .info { color:#444; margin-top:8px; }
+    .btn{
+      display:inline-block; margin-top:14px; padding:10px 16px; border-radius:8px;
+      background:#283e2d; color:#fff; text-decoration:none;
+    }
+    .btn:hover{ opacity:.9; }
+  </style>
+</head>
+<body>
+
+  <header class="topo">
+    <img src="{% static 'img/logo.png' %}" alt="Logo do Projeto" class="logo">
+    <h1>Rastreabilidade do Café</h1>
+  </header>
+
+  <main class="container">
+    <div class="qr-wrap">
+      {% if ultimo %}
+        <h2>QR Code do último lote</h2>
+        <p class="info">
+          Produtor: <strong>{{ ultimo.nome_produtor }}</strong> — Chácara: <strong>{{ ultimo.nome_chacara }}</strong>
+        </p>
+
+        <!-- QR gerado em base64 -->
+        <img class="qr-img" src="data:image/png;base64,{{ qr_code }}" alt="QR Code do último lote">
+
+        <p class="info">Escaneie com a câmera do celular ou clique no botão abaixo:</p>
+        <a class="btn" href="{% url 'lote_detalhe' ultimo.pk %}">Abrir lote #{{ ultimo.pk }}</a>
+      {% else %}
+        <h2>{{ mensagem }}</h2>
+      {% endif %}
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <p>&copy; 2025 Coffee Trace — Do grão à xícara: confiança em cada etapa</p>
+  </footer>
+</body>
+</html>

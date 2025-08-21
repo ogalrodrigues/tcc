@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Lote</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+  <!-- Cabeçalho -->
+  <header class="topo">
+    <img src="{% static 'img/logo.png' %}" alt="Logo do Projeto" class="logo">
+    <h1>Rastreabilidade do Café</h1>
+  </header>
+
+  <!-- Área principal -->
+  <main class="container">
+    <div class="card">
+      <h2>Lote de {{ lote.nome_produtor }} — {{ lote.nome_chacara }}</h2>
+
+      <!-- Foto do produto/lote -->
+      {% if lote.imagem %}
+        <img src="{{ lote.imagem.url }}" alt="Imagem do Lote" class="foto-produto">
+      {% else %}
+        <img src="{% static 'img/produto.png' %}" alt="Imagem ilustrativa" class="foto-produto">
+      {% endif %}
+
+      <p><strong>Tipo do grão:</strong> {{ lote.tipo_grao }}</p>
+      <p><strong>Processamento:</strong> {{ lote.tipo_processamento }}</p>
+
+      <p><strong>Plantio:</strong> {{ lote.data_plantio|date:"d/m/Y" }}</p>
+      <p><strong>Colheita:</strong> {{ lote.data_colheita|date:"d/m/Y" }}</p>
+      <p><strong>Lavagem:</strong> {{ lote.data_lavagem|date:"d/m/Y" }}</p>
+      <p><strong>Secagem:</strong> {{ lote.data_secagem|date:"d/m/Y" }}</p>
+      <p><strong>Pilagem:</strong> {{ lote.data_pilagem|date:"d/m/Y" }}</p>
+      <p><strong>Torrefação:</strong> {{ lote.data_torrefacao|date:"d/m/Y" }}</p>
+      <p><strong>Embalagem:</strong> {{ lote.data_embalagem|date:"d/m/Y" }}</p>
+      <p><strong>Validade:</strong> {{ lote.data_validade|date:"d/m/Y" }}</p>
+
+      {% if lote.observacoes %}
+        <hr>
+        <p><strong>Observações:</strong><br>{{ lote.observacoes|linebreaks }}</p>
+      {% endif %}
+
+      <!-- Exibir QR Code -->
+      {% if lote.qr_code %}
+        <hr>
+        <h3>Escaneie o QR Code deste lote</h3>
+        <img src="{{ lote.qr_code.url }}" alt="QR Code do Lote" 
+             style="width:180px;height:auto;border:1px solid #ddd;border-radius:8px;padding:8px;">
+      {% endif %}
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <p>&copy; 2025 Coffee Trace — Do grão à xícara: confiança em cada etapa</p>
+  </footer>
+</body>
+</html>
+

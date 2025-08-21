@@ -1,0 +1,62 @@
+/* 🎨 paleta de cores */
+:root{
+  --verde-escuro:#283e2d;
+  --marrom-cafe:#4b2e20;
+  --bege:#d9b98c;
+}
+
+/* topo */
+.topo{
+  background:var(--verde-escuro);
+  color:#fff;
+  padding:15px 25px;
+  display:flex;           /* coloca logo e título lado a lado */
+  align-items:center;     /* alinha no centro vertical */
+  justify-content:flex-start; /* alinha tudo à esquerda */
+  gap:15px;               /* espaço entre logo e título */
+}
+.topo h1{
+  color:#fff; /* título em branco */
+  margin:0;
+  font-size:1.8rem;
+}
+
+/* logo */
+.logo{
+  width:140px;   /* reduzida um pouco mais */
+  height:auto;
+}
+
+/* área principal */
+.container{
+  max-width:900px;
+  margin:20px auto;
+  padding:15px;
+}
+
+/* card */
+.card{
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:10px;
+  padding:20px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* imagem do produto */
+.foto-produto{
+  width:50%;  /* mantém 50% */
+  height:auto;
+  display:block;
+  border-radius:8px;
+  margin:12px 0 18px 0;
+}
+
+/* rodapé */
+.rodape{
+  background:var(--verde-escuro);
+  color:#fff;
+  text-align:center;
+  padding:12px;
+  margin-top:20px;
+}
