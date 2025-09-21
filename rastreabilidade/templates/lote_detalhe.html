@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detalhe do Lote {{ lote.codigo|default:"—" }}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="topo">
+    <img src="{% static 'img/logo.png' %}" alt="Logo do Projeto" class="logo">
+    <h1>Rastreabilidade do Café</h1>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>
+        Lote de {{ lote.nome_produtor|default:"—" }} — {{ lote.nome_chacara|default:"—" }}
+      </h2>
+
+      {% if lote.imagem %}
+        <img src="{{ lote.imagem.url }}" alt="Imagem do Lote" class="foto-produto">
+      {% else %}
+        <img src="{% static 'img/produto.png' %}" alt="Imagem ilustrativa" class="foto-produto">
+      {% endif %}
+
+      {% if lote.qr_code %}
+        <p><strong>Escaneie o QR Code para acessar este lote:</strong></p>
+        <img src="{{ lote.qr_code.url }}" alt="QR Code do Lote {{ lote.codigo|default:'—' }}" width="220" height="220">
+      {% endif %}
+
+      <p><strong>Tipo do grão:</strong> {{ lote.tipo_grao|default:"—" }}</p>
+      <p><strong>Processamento:</strong> {{ lote.tipo_processamento|default:"—" }}</p>
+
+      <p><strong>Plantio:</strong> {{ lote.data_plantio|date:"d/m/Y"|default:"—" }}</p>
+      <p><strong>Colheita:</strong> {{ lote.data_colheita|date:"d/m/Y"|default:"—" }}</p>
+      <p><strong>Lavagem:</strong> {{ lote.data_lavagem|date:"d/m/Y"|default:"—" }}</p>
+      <p><strong>Secagem:</strong> {{ lote.data_secagem|date:"d/m/Y"|default:"—" }}</p>
+      <p><strong>Pilagem:</strong> {{ lote.data_pilagem|date:"d/m/Y"|default:"—" }}</p>
+      <p><strong>Torrefação:</strong> {{ lote.data_torrefacao|date:"d/m/Y"|default:"—" }}</p>
+      <p><strong>Embalagem:</strong> {{ lote.data_embalagem|date:"d/m/Y"|default:"—" }}</p>
+      <p><strong>Validade:</strong> {{ lote.data_validade|date:"d/m/Y"|default:"—" }}</p>
+
+      {% if lote.observacoes %}
+        <hr>
+        <p><strong>Observações:</strong><br>{{ lote.observacoes|linebreaks }}</p>
+      {% endif %}
+
+      <p style="margin-top:1rem">
+        <a href="{% url 'home' %}">← Voltar</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <p>&copy; 2025 Coffee Trace — Do grão à xícara: confiança em cada etapa</p>
+  </footer>
+</body>
+</html>
+
+
