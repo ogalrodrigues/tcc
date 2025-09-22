@@ -3,6 +3,7 @@ from django.utils.html import format_html
 from django.urls import reverse
 from .models import LoteCafe
 
+
 @admin.register(LoteCafe)
 class LoteCafeAdmin(admin.ModelAdmin):
     list_display = (
@@ -15,7 +16,7 @@ class LoteCafeAdmin(admin.ModelAdmin):
         "data_colheita",
         "data_torrefacao",
         "data_validade",
-        "qr_code_thumb",  # miniatura dinâmica
+        "qr_code_thumb",  # miniatura dinâmica do QR
     )
 
     list_filter = (
@@ -32,9 +33,12 @@ class LoteCafeAdmin(admin.ModelAdmin):
 
     @admin.display(description="QR")
     def qr_code_thumb(self, obj):
-        url = reverse("qr_lote", args=[obj.public_id])
-        return format_html(
-            '<img src="{}" style="height:50px; border:1px solid #ddd; padding:2px; border-radius:4px;">',
-            url
-        )
+        if obj.public_id:  # só gera se o lote já tiver public_id
+            url = reverse("qr_lote", args=[obj.public_id])
+            return format_html(
+                '<img src="{}" style="height:50px; border:1px solid #ddd; padding:2px; border-radius:4px;">',
+                url
+            )
+        return "—"
+
 
