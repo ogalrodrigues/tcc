@@ -1,13 +1,14 @@
+# rastreabilidade/admin.py
 from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
 from .models import LoteCafe
 
-
 @admin.register(LoteCafe)
 class LoteCafeAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "public_id",           # ver o UUID na lista
         "nome_produtor",
         "nome_chacara",
         "tipo_grao",
@@ -16,8 +17,9 @@ class LoteCafeAdmin(admin.ModelAdmin):
         "data_colheita",
         "data_torrefacao",
         "data_validade",
-        "qr_code_thumb",  # miniatura dinâmica do QR
+        "qr_code_thumb",       # miniatura dinâmica
     )
+    readonly_fields = ("public_id",)
 
     list_filter = (
         "tipo_grao",
@@ -27,18 +29,15 @@ class LoteCafeAdmin(admin.ModelAdmin):
         "data_torrefacao",
         "data_validade",
     )
-
     search_fields = ("nome_produtor", "nome_chacara", "observacoes")
     date_hierarchy = "data_colheita"
 
     @admin.display(description="QR")
     def qr_code_thumb(self, obj):
-        if obj.public_id:  # só gera se o lote já tiver public_id
-            url = reverse("qr_lote", args=[obj.public_id])
-            return format_html(
-                '<img src="{}" style="height:50px; border:1px solid #ddd; padding:2px; border-radius:4px;">',
-                url
-            )
-        return "—"
+        url = reverse("qr_lote", args=[obj.public_id])
+        return format_html(
+            '<img src="{}" style="height:50px; border:1px solid #ddd; padding:2px; border-radius:4px;">',
+            url
+        )
 
 
