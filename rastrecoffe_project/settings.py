@@ -1,28 +1,31 @@
-# settings.py
 from pathlib import Path
 import os
+import dj_database_url
 
+# === Paths ===
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Segurança / Debug
+# === Segurança / Ambiente ===
 SECRET_KEY = os.getenv("SECRET_KEY", "!!!-defina-no-servidor-!!!")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-# Hosts e CSRF (Render + outros se necessário)
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
-    "seu-servico.onrender.com"
+    "projeto-tcc-rastreabilidade.onrender.com"
 ).split(",")
 
 CSRF_TRUSTED_ORIGINS = os.getenv(
     "CSRF_TRUSTED_ORIGINS",
-    "https://seu-servico.onrender.com"
+    "https://projeto-tcc-rastreabilidade.onrender.com"
 ).split(",")
 
-# URL pública para montar QR Codes/links, se você usa isso em templates/modelos
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
 
-# Apps
+# Quando atrás de proxy (Render) para que request.is_secure() funcione
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "True").lower() == "true"
+
+# === Apps ===
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -33,10 +36,10 @@ INSTALLED_APPS = [
     "rastreabilidade.apps.RastreabilidadeConfig",
 ]
 
-# Middlewares (WhiteNoise antes de SessionMiddleware já está OK)
+# === Middleware ===
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # static via WhiteNoise
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -45,8 +48,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# === URLs / WSGI ===
 ROOT_URLCONF = "rastrecoffe_project.urls"
+WSGI_APPLICATION = "rastrecoffe_project.wsgi.application"
 
+# === Templates ===
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -62,38 +68,68 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "rastrecoffe_project.wsgi.application"
-
-# Banco de dados (SQLite local; em produção considere Postgres/Render)
+# === Banco de Dados ===
+# Local: SQLite (fallback)
+# Produção (Render): usar DATABASE_URL (PostgreSQL)
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
 
-# Localização
+# === Internacionalização ===
 LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Porto_Velho"
 USE_I18N = True
 USE_TZ = True
 
-# Arquivos estáticos (servem via WhiteNoise)
+# === Arquivos Estáticos e de Mídia ===
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"          # coletados no deploy
+STATICFILES_DIRS = [BASE_DIR / "static"]        # seus assets de app
 
-# Arquivos de mídia (uploads/QRs gerados)
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = BASE_DIR / "media"                 # uploads (ex.: QR codes)
 
-# Storages (Django 4.2+): agora com 'default' configurado para mídia
+# Django 5+: defina 'default' e 'staticfiles' em STORAGES
 STORAGES = {
-    "default": {  # <--- ESSENCIAL para FileField/ImageField (QR code etc.)
+    # Onde salvar arquivos de usuário (FileField/ImageField), ex.: QR code
+    "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "OPTIONS": {
+            "location": str(MEDIA_ROOT),
+            "base_url": MEDIA_URL,
+        },
     },
+    # Arquivos estáticos servidos por WhiteNoise com hash no nome
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# === Outros ===
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# === Logging básico (útil para erros 500 no Render) ===
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": LOG_LEVEL,
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
     },
 }
 
@@ -107,5 +143,4 @@ if os.getenv("RUNNING_LOCALLY", "False").lower() == "true":
         "http://127.0.0.1:8000",
         "http://localhost:8000",
     ]
-
-
+    SECURE_SSL_REDIRECT = False
