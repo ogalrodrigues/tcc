@@ -1,0 +1,18 @@
+[
+{
+  "model": "rastreabilidade.lotecafe",
+  "pk": 1,
+  "fields": {
+    "nome_produtor": "Rozeli Joventina",
+    "nome_chacara": "Santa Luzia",
+    "tipo_grao": "Robusta Amazônico Clonal",
+    "tipo_processamento": "Gãos",
+    "data_plantio": "2022-02-02",
+    "data_colheita": "2025-05-30",
+    "data_lavagem": "2025-05-05",
+    "data_secagem": "2025-05-20",
+    "data_pilagem": "2025-05-25",
+    "data_torrefacao": "2025-05-30",
+    "data_embalagem": "2025-06-02",
+    "data_validade": "2026-10-10",
+    "observacoes": 
