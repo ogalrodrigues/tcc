@@ -4,21 +4,25 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Segurança / Debug
 SECRET_KEY = os.getenv("SECRET_KEY", "!!!-defina-no-servidor-!!!")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
+# Hosts e CSRF (Render + outros se necessário)
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
-    "projeto-tcc-rastreabilidade.onrender.com"
+    "seu-servico.onrender.com"
 ).split(",")
 
 CSRF_TRUSTED_ORIGINS = os.getenv(
     "CSRF_TRUSTED_ORIGINS",
-    "https://projeto-tcc-rastreabilidade.onrender.com"
+    "https://seu-servico.onrender.com"
 ).split(",")
 
+# URL pública para montar QR Codes/links, se você usa isso em templates/modelos
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
 
+# Apps
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -29,9 +33,10 @@ INSTALLED_APPS = [
     "rastreabilidade.apps.RastreabilidadeConfig",
 ]
 
+# Middlewares (WhiteNoise antes de SessionMiddleware já está OK)
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -59,6 +64,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "rastrecoffe_project.wsgi.application"
 
+# Banco de dados (SQLite local; em produção considere Postgres/Render)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -66,56 +72,40 @@ DATABASES = {
     }
 }
 
+# Localização
 LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Porto_Velho"
 USE_I18N = True
 USE_TZ = True
 
-# Static
+# Arquivos estáticos (servem via WhiteNoise)
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    }
-}
-
+# Arquivos de mídia (uploads/QRs gerados)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
-SECURE_SSL_REDIRECT = not DEBUG
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
+# Storages (Django 4.2+): agora com 'default' configurado para mídia
+STORAGES = {
+    "default": {  # <--- ESSENCIAL para FileField/ImageField (QR code etc.)
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
-    "formatters": {
-        "verbose": {"format": "[%(levelname)s] %(asctime)s %(name)s %(message)s"},
-    },
-    "loggers": {
-        "django.request": {  
-            "handlers": ["console"],
-            "level": "ERROR",
-            "propagate": False,
-        },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
+# --- Facilitar desenvolvimento local (NÃO use em produção) ---
 if os.getenv("RUNNING_LOCALLY", "False").lower() == "true":
     DEBUG = True
-    
+    # garante hosts/origens locais mesmo se variáveis de ambiente não estiverem setadas
     local_hosts = {"127.0.0.1", "localhost"}
     ALLOWED_HOSTS = list(set(ALLOWED_HOSTS) | local_hosts)
     CSRF_TRUSTED_ORIGINS = [
         "http://127.0.0.1:8000",
         "http://localhost:8000",
     ]
+
 
