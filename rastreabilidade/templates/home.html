@@ -39,9 +39,8 @@
         </p>
 
         <!-- QR gerado em base64 -->
-        <img class="qr-img" src="data:image/png;base64,{{ qr_code_b64 }}" alt="QR Code do último lote">
+        <img class="qr-img" src="data:image/png;base64,{{ qr_code_b64 }}" alt="">
 
-        <p class="info">Escaneie com a câmera do celular ou clique no botão abaixo:</p>
         <a class="btn" href="{% url 'lote_detalhe' ultimo.pk %}">Abrir lote #{{ ultimo.pk }}</a>
       {% else %}
         <h2>{{ mensagem }}</h2>
@@ -54,4 +53,5 @@
   </footer>
 </body>
 </html>
+
 
