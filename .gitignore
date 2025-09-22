@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ambiente / virtualenv
+venv/
+
+# Banco de dados local
+db.sqlite3
+
+# Arquivos estáticos gerados pelo collectstatic
+staticfiles/
