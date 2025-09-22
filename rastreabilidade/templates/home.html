@@ -14,6 +14,7 @@
     .qr-img{
       width: 220px; height:auto; border:1px solid #ddd; border-radius:8px; padding:10px;
       background: #fff;
+      margin: 10px auto;
     }
     .info { color:#444; margin-top:8px; }
     .btn{
@@ -38,10 +39,17 @@
           Produtor: <strong>{{ ultimo.nome_produtor }}</strong> — Chácara: <strong>{{ ultimo.nome_chacara }}</strong>
         </p>
 
-        <!-- QR gerado em base64 -->
-        <img class="qr-img" src="data:image/png;base64,{{ qr_code_b64 }}" alt="">
+        <!-- QR gerado inline em base64 -->
+        <img class="qr-img" src="data:image/png;base64,{{ qr_code_b64 }}" alt="QR Code para acessar o lote {{ ultimo.public_id }}">
 
-        <a class="btn" href="{% url 'lote_detalhe' ultimo.pk %}">Abrir lote #{{ ultimo.pk }}</a>
+        <!-- link para a página do lote -->
+        <a class="btn" href="{% url 'lote_detalhe' ultimo.public_id %}">
+          Abrir lote
+        </a>
+
+        <!-- QR servido pela rota /qr/... -->
+        <p class="info">QR Code alternativo (rota /qr/):</p>
+        <img class="qr-img" src="{% url 'qr_lote' ultimo.public_id %}" alt="QR Code estável do lote {{ ultimo.public_id }}">
       {% else %}
         <h2>{{ mensagem }}</h2>
       {% endif %}
@@ -50,8 +58,7 @@
 
   <footer class="rodape">
     <p>&copy; 2025 Coffee Trace — Do grão à xícara: confiança em cada etapa</p>
+    <p class="assinatura">Desenvolvido por Glaucione Dos S. Rodrigues</p>
   </footer>
 </body>
 </html>
-
-

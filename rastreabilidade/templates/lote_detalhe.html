@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Detalhe do Lote {{ lote.codigo|default:"—" }}</title>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .card{
+      max-width: 900px; margin: 30px auto; background:#fff; padding:20px;
+      border:1px solid #ddd; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,.08);
+    }
+    .foto-produto{ width: 100%; max-width: 480px; height: auto; border-radius:10px; }
+    .qr-img{ width: 240px; height:auto; border:1px solid #ddd; border-radius:8px; padding:10px; background:#fff; }
+  </style>
 </head>
 <body>
   <header class="topo">
@@ -25,10 +33,11 @@
         <img src="{% static 'img/produto.png' %}" alt="Imagem ilustrativa" class="foto-produto">
       {% endif %}
 
-      {% if lote.qr_code %}
-        <p><strong>Escaneie o QR Code para acessar este lote:</strong></p>
-        <img src="{{ lote.qr_code.url }}" alt="QR Code do Lote {{ lote.codigo|default:'—' }}" width="220" height="220">
-      {% endif %}
+      <!-- QR sob demanda via rota /qr/<uuid>.png (não depende de arquivo salvo) -->
+      <p style="margin-top: 1rem;">
+        <strong>Escaneie o QR Code para acessar este lote:</strong><br>
+        <img class="qr-img" src="{% url 'qr_lote' lote.public_id %}" alt="QR Code do Lote {{ lote.codigo|default:'—' }}">
+      </p>
 
       <p><strong>Tipo do grão:</strong> {{ lote.tipo_grao|default:"—" }}</p>
       <p><strong>Processamento:</strong> {{ lote.tipo_processamento|default:"—" }}</p>

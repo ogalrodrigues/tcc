@@ -59,4 +59,13 @@
   text-align:center;
   padding:12px;
   margin-top:20px;
+  font-size:0.9rem;
+  position:relative;
+}
+
+/* assinatura discreta */
+.rodape .assinatura{
+  font-size:0.75rem;
+  color:rgba(255,255,255,0.6); /* branco translúcido */
+  margin-top:4px;
 }
