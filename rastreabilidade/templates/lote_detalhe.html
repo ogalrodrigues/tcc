@@ -11,14 +11,21 @@
       max-width: 900px; margin: 30px auto; background:#fff; padding:20px;
       border:1px solid #ddd; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,.08);
     }
-    .foto-produto{ width: 100%; max-width: 480px; height: auto; border-radius:10px; }
-    .qr-img{ width: 240px; height:auto; border:1px solid #ddd; border-radius:8px; padding:10px; background:#fff; }
+    .foto-produto{ width: 100%; max-width: 480px; height: auto; border-radius:10px; display:block; margin:auto; }
+    .aviso { font-size: 14px; color:#555; margin: 15px 0; font-style: italic; }
+    header.topo { text-align:center; padding:20px 0; background:#203A2E; color:white; }
+    header.topo img.logo { height:60px; }
+    header.topo .slogan { margin-top:5px; font-size:14px; opacity:0.9; }
+    footer.rodape { text-align:center; padding:15px; margin-top:30px; background:#203A2E; color:white; }
   </style>
 </head>
 <body>
+  <!-- TOPO -->
   <header class="topo">
     <img src="{% static 'img/logo.png' %}" alt="Logo do Projeto" class="logo">
     <h1>Rastreabilidade do Café</h1>
+    <!-- ✅ Slogan movido para baixo da logo -->
+    <p class="slogan">&copy; 2025 Coffee Trace — Do grão à xícara: confiança em cada etapa</p>
   </header>
 
   <main class="container">
@@ -33,15 +40,11 @@
         <img src="{% static 'img/produto.png' %}" alt="Imagem ilustrativa" class="foto-produto">
       {% endif %}
 
-      <!-- QR sob demanda via rota /qr/<uuid>.png (não depende de arquivo salvo) -->
-      <p style="margin-top: 1rem;">
-        <strong>Escaneie o QR Code para acessar este lote:</strong><br>
-        <img class="qr-img" src="{% url 'qr_lote' lote.public_id %}" alt="QR Code do Lote {{ lote.codigo|default:'—' }}">
-      </p>
+      <!-- ✅ QR REMOVIDO e substituído por aviso -->
+      <p class="aviso">Todas as informações aqui apresentadas são fictícias e utilizadas apenas para fins acadêmicos.</p>
 
       <p><strong>Tipo do grão:</strong> {{ lote.tipo_grao|default:"—" }}</p>
       <p><strong>Processamento:</strong> {{ lote.tipo_processamento|default:"—" }}</p>
-
       <p><strong>Plantio:</strong> {{ lote.data_plantio|date:"d/m/Y"|default:"—" }}</p>
       <p><strong>Colheita:</strong> {{ lote.data_colheita|date:"d/m/Y"|default:"—" }}</p>
       <p><strong>Lavagem:</strong> {{ lote.data_lavagem|date:"d/m/Y"|default:"—" }}</p>
@@ -62,8 +65,9 @@
     </div>
   </main>
 
+  <!-- ✅ Rodapé com seu nome -->
   <footer class="rodape">
-    <p>&copy; 2025 Coffee Trace — Do grão à xícara: confiança em cada etapa</p>
+    Desenvolvido por Glaucione dos S. Rodrigues
   </footer>
 </body>
 </html>
