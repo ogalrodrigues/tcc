@@ -7,32 +7,70 @@
   <title>Detalhe do Lote {{ lote.codigo|default:"—" }}</title>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <style>
-    .card{
-      max-width: 900px; margin: 30px auto; background:#fff; padding:20px;
-      border:1px solid #ddd; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,.08);
+    body { font-family: Arial, sans-serif; margin: 0; background-color: #f8f9fa; }
+
+    header.topo {
+      text-align: center;
+      padding: 20px 0;
+      background: #203A2E;
+      color: white;
     }
-    .foto-produto{ width: 100%; max-width: 480px; height: auto; border-radius:10px; display:block; margin:auto; }
-    .aviso { font-size: 14px; color:#555; margin: 15px 0; font-style: italic; }
-    header.topo { text-align:center; padding:20px 0; background:#203A2E; color:white; }
-    header.topo img.logo { height:60px; }
-    header.topo .slogan { margin-top:5px; font-size:14px; opacity:0.9; }
-    footer.rodape { text-align:center; padding:15px; margin-top:30px; background:#203A2E; color:white; }
+    header.topo img.logo {
+      height: 60px;
+    }
+    header.topo h1 {
+      margin-top: 8px;
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .card {
+      max-width: 900px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    }
+
+    .foto-produto {
+      width: 100%;
+      max-width: 480px;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+      margin: auto;
+    }
+
+    .aviso {
+      font-size: 14px;
+      color: #555;
+      margin: 15px 0;
+      font-style: italic;
+    }
+
+    footer.rodape {
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      background: #203A2E;
+      color: white;
+    }
   </style>
 </head>
 <body>
+
   <!-- TOPO -->
   <header class="topo">
-    <img src="{% static 'img/logo.png' %}" alt="Logo do Projeto" class="logo">
-    <h1>Rastreabilidade do Café</h1>
-    <!-- ✅ Slogan movido para baixo da logo -->
-    <p class="slogan">&copy; 2025 Coffee Trace — Do grão à xícara: confiança em cada etapa</p>
+    <img src="{% static 'img/logo.png' %}" alt="Logo Coffee Trace" class="logo">
+    <h1>Do grão à xícara: confiança em cada etapa</h1>
   </header>
 
+  <!-- CONTEÚDO -->
   <main class="container">
     <div class="card">
-      <h2>
-        Lote de {{ lote.nome_produtor|default:"—" }} — {{ lote.nome_chacara|default:"—" }}
-      </h2>
+      <h2>Lote de {{ lote.nome_produtor|default:"—" }} — {{ lote.nome_chacara|default:"—" }}</h2>
 
       {% if lote.imagem %}
         <img src="{{ lote.imagem.url }}" alt="Imagem do Lote" class="foto-produto">
@@ -40,7 +78,7 @@
         <img src="{% static 'img/produto.png' %}" alt="Imagem ilustrativa" class="foto-produto">
       {% endif %}
 
-      <!-- ✅ QR REMOVIDO e substituído por aviso -->
+      <!-- ✅ Aviso acadêmico -->
       <p class="aviso">Todas as informações aqui apresentadas são fictícias e utilizadas apenas para fins acadêmicos.</p>
 
       <p><strong>Tipo do grão:</strong> {{ lote.tipo_grao|default:"—" }}</p>
@@ -65,11 +103,13 @@
     </div>
   </main>
 
-  <!-- ✅ Rodapé com seu nome -->
+  <!-- RODAPÉ -->
   <footer class="rodape">
     Desenvolvido por Glaucione dos S. Rodrigues
   </footer>
+
 </body>
 </html>
+
 
 
