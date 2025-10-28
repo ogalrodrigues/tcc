@@ -39,17 +39,14 @@
           Produtor: <strong>{{ ultimo.nome_produtor }}</strong> — Chácara: <strong>{{ ultimo.nome_chacara }}</strong>
         </p>
 
-        <!-- QR gerado inline em base64 -->
+        <!-- ✅ Mantido apenas 1 QR Code -->
         <img class="qr-img" src="data:image/png;base64,{{ qr_code_b64 }}" alt="QR Code para acessar o lote {{ ultimo.public_id }}">
 
-        <!-- link para a página do lote -->
+        <!-- Botão -->
         <a class="btn" href="{% url 'lote_detalhe' ultimo.public_id %}">
           Abrir lote
         </a>
 
-        <!-- QR servido pela rota /qr/... -->
-        <p class="info">QR Code alternativo (rota /qr/):</p>
-        <img class="qr-img" src="{% url 'qr_lote' ultimo.public_id %}" alt="QR Code estável do lote {{ ultimo.public_id }}">
       {% else %}
         <h2>{{ mensagem }}</h2>
       {% endif %}
@@ -62,3 +59,4 @@
   </footer>
 </body>
 </html>
+
