@@ -1,71 +1,144 @@
-/* 🎨 paleta de cores */
+/* ========================== */
+/* FONTES                     */
+/* ========================== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,600&family=Inter:wght@400;500;600&display=swap');
+
+body{
+  font-family: 'Inter', sans-serif;
+  background:#f4f4f4;
+  margin:0;
+  padding:0;
+  color:#222;
+}
+
+/* ========================== */
+/* PALETA                     */
+/* ========================== */
 :root{
   --verde-escuro:#283e2d;
   --marrom-cafe:#4b2e20;
   --bege:#d9b98c;
 }
 
-/* topo */
+/* ========================== */
+/* TOPO                        */
+/* ========================== */
 .topo{
   background:var(--verde-escuro);
   color:#fff;
-  padding:15px 25px;
-  display:flex;           /* coloca logo e título lado a lado */
-  align-items:center;     /* alinha no centro vertical */
-  justify-content:flex-start; /* alinha tudo à esquerda */
-  gap:15px;               /* espaço entre logo e título */
+  padding:20px 30px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:20px;
+  border-bottom:4px solid var(--bege);
 }
+
 .topo h1{
-  color:#fff; /* título em branco */
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:1.6rem;
+  font-weight:500;
   margin:0;
-  font-size:1.8rem;
+  letter-spacing:0.8px;
 }
 
 /* logo */
 .logo{
-  width:140px;   /* reduzida um pouco mais */
+  width:130px;
   height:auto;
 }
 
-/* área principal */
-.container{
+/* ========================== */
+/* HOME – QR INFO BLOCK       */
+/* ========================== */
+.qr-wrap{
   max-width:900px;
-  margin:20px auto;
-  padding:15px;
+  margin:30px auto;
+  background:#fff;
+  padding:20px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
 }
 
-/* card */
+.qr-img{
+  width:220px;
+  height:auto;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:10px;
+  background:#fff;
+  margin:10px auto;
+}
+
+/* ========================== */
+/* CONTEÚDO GERAL             */
+/* ========================== */
+.container{
+  max-width:900px;
+  margin:30px auto;
+  padding:10px;
+}
+
 .card{
   background:#fff;
   border:1px solid #ccc;
   border-radius:10px;
-  padding:20px;
+  padding:25px;
   box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+
+h2{
+  font-family:'Playfair Display', serif;
+  font-size:1.6rem;
+  margin-bottom:15px;
+  color:var(--marrom-cafe);
 }
 
 /* imagem do produto */
 .foto-produto{
-  width:50%;  /* mantém 50% */
-  height:auto;
+  width:50%;
   display:block;
-  border-radius:8px;
-  margin:12px 0 18px 0;
+  margin:15px auto;
+  border-radius:10px;
+  transition:0.3s;
 }
 
-/* rodapé */
+.foto-produto:hover{
+  transform:scale(1.02);
+}
+
+/* ========================== */
+/* RODAPÉ                     */
+/* ========================== */
 .rodape{
   background:var(--verde-escuro);
   color:#fff;
   text-align:center;
-  padding:12px;
-  margin-top:20px;
+  padding:10px;
   font-size:0.9rem;
-  position:relative;
+  margin-top:30px;
 }
 
-/* assinatura discreta */
-.rodape .assinatura{
+.assinatura{
   font-size:0.75rem;
-  color:rgba(255,255,255,0.6); /* branco translúcido */
-  margin-top:4px;
+  color:rgba(255,255,255,0.7);
 }
+
+/* botões links */
+a.btn{
+  display:inline-block;
+  background:var(--verde-escuro);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:6px;
+  text-decoration:none;
+  transition:0.2s;
+}
+
+a.btn:hover{
+  opacity:0.9;
+}
+
